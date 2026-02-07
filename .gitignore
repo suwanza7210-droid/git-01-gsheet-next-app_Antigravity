@@ -1,0 +1,135 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Ignore environment variable files for different environments
+.env.production
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Ignore log files
+# ...existing code...
+# Ignore credentials directory
+# This is where sensitive information like API keys or service account files should be stored
+# Ensure this directory is not committed to version control
+# วิธีการทำให้ส่วนนี้ push ไฟล์นี้ขึ้น Git หรือ repository ใด ๆ
+credentials/ 
+credentials/service-account.json
+# ถ้าใส่ credentials แล้ว ไฟล์ทุกไฟล์ในโฟลเดอร์นี้ (รวมถึง service-account.json) จะถูก ignore อัตโนมัติ
+# ถ้าต้องการ ignore เฉพาะไฟล์เดียว ให้ใส่แค่ service-account.json
+# สรุปคือ ถ้าใส่ credentials/ จะ ignore ทุกไฟล์ในโฟลเดอร์นี้
+# ถ้าใส่ credentials/service-account.json จะ ignore เฉพาะไฟล์นี้
+# จากนี้ git จะไม่ track ไฟล์นี้อีก (แต่ถ้าเคย commit ไปแล้ว ต้องลบออกจาก git history ด้วย)
+
+#--------------------------------------------------------------------------------
+# วิธีใช้ .env.production สำหรับ Next.js/Node.js
+# 1. สร้างไฟล์ .env.production ใน root directory ของโปรเจกต์
+# 2. ใส่ตัวแปรสภาพแวดล้อมที่ต้องการ
+#    เช่น:
+#    GOOGLE_SHEET_ID=your-sheet-id
+
+#    :: เวลารัน production ให้ Next.js ใช้ไฟล์นี้อัตโนมัติ
+# 1. ในไฟล์ package.json ให้เพิ่มสคริปต์สำหรับรัน production
+#    เช่น:
+#    "scripts": {
+#      "start": "next start"
+#    }  
+# 2. รันคำสั่ง `npm run start` หรือ `yarn start` เพื่อเริ่มเซิร์ฟเวอร์ในโหมด production
+# 3. Next.js จะโหลดตัวแปรจาก .env.production โดยอัตโนมัติ
+# 4. สามารถเข้าถึงตัวแปรเหล่านี้ในโค้าด้วย `process.env.VARIABLE_NAME`
+#    เช่น:
+#    const sheetId = process.env.GOOGLE_SHEET_ID;   
+# 5. อย่าลืมเพิ่ม .env.production ใน .gitignore เพื่อไม่ให้ถูก commit ขึ้น repository
+# 6. ถ้าต้องการให้ตัวแปรนี้ใช้ได้ในฝั่ง client (เช่นใน React components)
+#    ต้องเพิ่ม prefix `NEXT_PUBLIC_` เช่น:
+#    NEXT_PUBLIC_GOOGLE_SHEET_ID=your-sheet-id
+#    แล้วสามารถเข้าถึงได้ใน client-side code ด้วย `process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID`
+# 7. สำหรับการ deploy บน Vercel หรือแพลตฟอร์มอื่น ๆ
+#    สามารถตั้งค่าตัวแปรสภาพแวดล้อมใน dashboard ของแพลตฟอร์มได้
+#    โดยไม่ต้อง commit .env.production ขึ้น repository
+#    เช่น บน Vercel ให้ไปที่ Settings > Environment Variables
+#    แล้วเพิ่มตัวแปรที่ต้องการใช้ใน production
+#--------------------------------------------------------------------------------   
+# วิธีการทำให้ส่วนนี้ push ไฟล์นี้ขึ้น Git หรือ repository ใด ๆ
+# ถ้าต้องการให้ไฟล์นี้ถูก track โดย git ให้ลบออกจาก .gitignore
+# แต่ไม่แนะนำให้ทำแบบนี้ เพราะไฟล์นี้มีข้อมูลที่สำคัญและไม่ควรเปิดเผย
+# ถ้าต้องการให้ไฟล์นี้ถูก track โดย git
+# ให้ลบไฟล์นี้ออกจาก .gitignore และ commit ไฟล์นี้ขึ้น repository
+# แต่ไม่แนะนำให้ทำแบบนี้ เพราะไฟล์นี้มีข้อมูลที่สำคัญและไม่ควรเปิดเผย
+# ถ้าต้องการให้ไฟล์นี้ถูก track โดย git
+ 
+#---------------------------------------------------------------------------------
+#---          กรณี deploy บน Vercel
+# คุณ ไม่ต้อง commit ไฟล์ .env.production หรือไฟล์ที่มีข้อมูลลับขึ้น Git เลย
+# แต่ให้ตั้งค่าตัวแปรสภาพแวดล้อม (Environment Variables) ผ่านหน้า Dashboard ของ Vercel แทน
+#         วิธีตั้งค่า Environment Variables บน Vercel
+# 1. ไปที่หน้า Dashboard ของโปรเจกต์บน Vercel
+# 2. คลิกที่ Settings > Environment Variables
+# 3. เพิ่มตัวแปรที่ต้องการ เช่น
+#    - GOOGLE_SHEET_ID
+#    - GOOGLE_SERVICE_ACCOUNT_EMAIL
+#    - GOOGLE_PRIVATE_KEY
+# 4. ตั้งค่า Environment ให้ตรงกับที่ต้องการ (Production, Preview, Development)
+# 5. บันทึกการตั้งค่า
+# 6. เมื่อ deploy โปรเจกต์ Vercel จะใช้ตัวแปรเหล่านี้โดยอัตโนมัติ
+# 7. ในโค้ด Next.js ของคุณ
+#    สามารถเข้าถึงตัวแปรเหล่านี้ได้ด้วย `process.env.VARIABLE_NAME`
+#    เช่น:
+#    ```javascript
+#    const sheetId = process.env.GOOGLE_SHEET_ID;
+#    const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
+#    const privateKey = process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+#    ```
+# 8. อย่าลืมเพิ่มไฟล์ .env.production ใน .gitignore
+#    เพื่อไม่ให้ไฟล์นี้ถูก commit ขึ้น Git
+# 9. ถ้าต้องการให้ตัวแปรนี้ใช้ได้ในฝั่ง client (เช่นใน React components)
+#    ต้องเพิ่ม prefix `NEXT_PUBLIC_` เช่น:
+#    ```env
+#    NEXT_PUBLIC_GOOGLE_SHEET_ID=your-sheet-id
+#    ```
+#    แล้วสามารถเข้าถึงได้ใน client-side code ด้วย `process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID`
+# 10. สำหรับการ deploy บน Vercel หรือแพลตฟอร์มอื่น ๆ
+#     สามารถตั้งค่าตัวแปรสภาพแวดล้อมใน dashboard ของแพลตฟอร์มได้
+#     โดยไม่ต้อง commit .env.production ขึ้น repository
+#     เช่น บน Vercel ให้ไปที่ Settings > Environment Variables
+#     แล้วเพิ่มตัวแปรที่ต้องการใช้ใน production
+#---------------------------------------------------------------------------------
