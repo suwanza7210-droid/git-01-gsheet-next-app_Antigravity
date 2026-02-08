@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1600" viewBox="0 0 1200 1600">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333" />
+    </marker>
+    <style>
+      .box { fill:#fff; stroke:#333; stroke-width:2; rx:8; }
+      .group { fill:#f3f4f6; stroke:#999; stroke-width:1; }
+      .title { font: bold 18px sans-serif; fill:#111; }
+      .label { font: 14px sans-serif; fill:#111; }
+      .note { font: 12px sans-serif; fill:#333; }
+    </style>
+  </defs>
+
+  <!-- Header -->
+  <text x="600" y="36" text-anchor="middle" class="title">Project Flowchart — gsheet-next-app_Antigravity</text>
+
+  <!-- Client block -->
+  <rect x="40" y="60" width="1120" height="120" class="group" rx="10"/>
+  <text x="60" y="92" class="title">1. Client (Browser)</text>
+  <rect x="60" y="100" width="320" height="60" class="box"/>
+  <text x="80" y="132" class="label">/ (app/page.tsx) — Landing</text>
+  <rect x="420" y="100" width="320" height="60" class="box"/>
+  <text x="440" y="132" class="label">/login (app/login/page.tsx)</text>
+  <rect x="780" y="100" width="320" height="60" class="box"/>
+  <text x="800" y="122" class="label">NextAuth client (signIn)</text>
+
+  <!-- Auth block -->
+  <rect x="40" y="200" width="1120" height="160" class="group" rx="10"/>
+  <text x="60" y="232" class="title">2. Authentication</text>
+  <rect x="80" y="250" width="480" height="80" class="box"/>
+  <text x="100" y="282" class="label">api/auth/[...nextauth]/route.ts</text>
+  <rect x="600" y="250" width="520" height="80" class="box"/>
+  <text x="620" y="282" class="label">Session (cookie) &amp; app/providers.tsx (SessionProvider)</text>
+
+  <!-- Navigation block -->
+  <rect x="40" y="380" width="1120" height="160" class="group" rx="10"/>
+  <text x="60" y="412" class="title">3. Navigation &amp; Page Load</text>
+  <rect x="80" y="440" width="320" height="60" class="box"/>
+  <text x="100" y="472" class="label">/dashboard (app/dashboard/page.tsx)</text>
+  <rect x="440" y="440" width="320" height="60" class="box"/>
+  <text x="460" y="472" class="label">Dashboard layout &amp; components</text>
+  <rect x="800" y="440" width="320" height="60" class="box"/>
+  <text x="820" y="472" class="label">EmployeeList / DynamicTable / EmployeeCard</text>
+
+  <!-- Data flow block -->
+  <rect x="40" y="560" width="1120" height="220" class="group" rx="10"/>
+  <text x="60" y="592" class="title">4. Data fetch (Google Sheets)</text>
+  <rect x="80" y="620" width="420" height="80" class="box"/>
+  <text x="100" y="652" class="label">app/api/google-sheets/route.ts (GET/POST)</text>
+  <rect x="540" y="620" width="420" height="80" class="box"/>
+  <text x="560" y="652" class="label">lib/google-sheets.ts (helper)</text>
+  <rect x="980" y="620" width="160" height="80" class="box"/>
+  <text x="1000" y="652" class="label">credentials/service-account.json</text>
+  <rect x="540" y="720" width="600" height="40" class="box"/>
+  <text x="560" y="748" class="label">Google Sheets (spreadsheet) — rows / JSON</text>
+
+  <!-- CRUD block -->
+  <rect x="40" y="800" width="1120" height="180" class="group" rx="10"/>
+  <text x="60" y="832" class="title">5. CRUD flows</text>
+  <rect x="80" y="860" width="320" height="60" class="box"/>
+  <text x="100" y="892" class="label">Add: EmployeeForm → POST /api/google-sheets</text>
+  <rect x="440" y="860" width="320" height="60" class="box"/>
+  <text x="460" y="892" class="label">Edit/Delete: /api/google-sheets/[employeeId] (PUT/DELETE)</text>
+  <rect x="800" y="860" width="320" height="60" class="box"/>
+  <text x="820" y="892" class="label">API calls → lib/google-sheets → Sheet update</text>
+
+  <!-- Helpers block -->
+  <rect x="40" y="1000" width="1120" height="140" class="group" rx="10"/>
+  <text x="60" y="1032" class="title">6. Helpers &amp; Utils</text>
+  <rect x="80" y="1060" width="320" height="60" class="box"/>
+  <text x="100" y="1092" class="label">hooks/useIdleFetch.ts — poll/refresh</text>
+  <rect x="440" y="1060" width="320" height="60" class="box"/>
+  <text x="460" y="1092" class="label">utils/dateUtils.ts — format dates</text>
+  <rect x="800" y="1060" width="320" height="60" class="box"/>
+  <text x="820" y="1092" class="label">components/LogoutButton.tsx — signOut</text>
+
+  <!-- Permissions block -->
+  <rect x="40" y="1160" width="1120" height="120" class="group" rx="10"/>
+  <text x="60" y="1192" class="title">7. Permissions &amp; Routing</text>
+  <rect x="80" y="1200" width="520" height="60" class="box"/>
+  <text x="100" y="1232" class="label">Dashboard route checks session; redirects to /login if none</text>
+  <rect x="640" y="1200" width="520" height="60" class="box"/>
+  <text x="660" y="1232" class="label">API routes verify session via lib/auth.ts before operations</text>
+
+  <!-- Arrows (simplified) -->
+  <line x1="260" y1="160" x2="260" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="740" y1="160" x2="740" y2="200" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="260" y1="280" x2="260" y2="380" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="740" y1="320" x2="740" y2="440" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="260" y1="500" x2="260" y2="560" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="260" y1="700" x2="260" y2="800" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="260" y1="940" x2="260" y2="1000" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="260" y1="1140" x2="260" y2="1160" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Footer note -->
+  <text x="60" y="1360" class="note">Generated diagram: simplified visual of app flow. For interactive edit use Mermaid source.</text>
+
+</svg>
