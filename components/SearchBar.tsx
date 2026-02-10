@@ -1,10 +1,5 @@
 import React from 'react';
 
-// interface SearchBarProps {
-//     searchTerm: string;
-//     onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-//     placeholder?: string;
-// }
 interface SearchBarProps {
     searchTerm: string;
     onSearchChange: (value: string) => void;
@@ -31,7 +26,9 @@ const SearchBar: React.FC<SearchBarProps> = ({
                 type="search"
                 value={searchTerm}
                 onChange={e => onSearchChange(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 
+                          focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+                          placeholder-gray-400 transition-colors text-sm"
                 placeholder={placeholder}
                 autoComplete="off"
                 aria-label={placeholder}

@@ -7,16 +7,17 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import EmployeeForm from '@/components/EmployeeForm';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { Employee } from '@/app/dashboard/page'; // Import Employee type
-
-
-// กำหนดประเภทสำหรับข้อมูลแบบฟอร์ม
-type EmployeeFormData = {
+type Employee = {
     id: string;
     name: string;
     position: string;
     department: string;
+    createdAt: string;
+    image: string;
 };
+
+// กำหนดประเภทสำหรับข้อมูลแบบฟอร์ม
+type EmployeeFormData = Omit<Employee, 'createdAt'>;
 
 export default function EditEmployeePage() {
     const router = useRouter();

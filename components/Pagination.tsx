@@ -11,7 +11,7 @@ const Pagination: React.FC<PaginationProps> = ({
     currentPage,
     totalPages,
     onPageChange,
-    disabled = false,         // ← default false
+    disabled = false,
 }) => {
     // สร้างรายการเลขหน้า
     const getPageNumbers = () => {
@@ -40,58 +40,53 @@ const Pagination: React.FC<PaginationProps> = ({
     };
 
     return (
-        <div className="flex items-center justify-center space-x-1">
-            {/* ปุ่มย้อนกลับ */}
-            <button
-                // onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-                onClick={() => !disabled && onPageChange(Math.max(1, currentPage - 1))}
-                // disabled={currentPage === 1}
-                disabled={disabled || currentPage === 1}
-                // className={`px-3 py-1 rounded 
-                className={`px-3 py-1 rounded ${currentPage === 1
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-            >
-                &lt;
-            </button>
+        <div className="flex items-center justify-between">
+            <div className="text-sm text-gray-500">
+                หน้า {currentPage} จาก {totalPages}
+            </div>
 
-            {/* รายการเลขหน้า */}
-            {getPageNumbers().map(page => (
+            <div className="flex items-center space-x-1">
+                {/* ปุ่มย้อนกลับ */}
                 <button
-                    key={page}
-                    // onClick={() => onPageChange(page)}
-                    onClick={() => !disabled && onPageChange(page)}
-                    className={`px-3 py-1 rounded ${currentPage === page
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                        } ${disabled
-                            ? 'opacity-50 cursor-not-allowed'
-                            : ''
+                    onClick={() => !disabled && onPageChange(Math.max(1, currentPage - 1))}
+                    disabled={disabled || currentPage === 1}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === 1 || disabled
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
                         }`}
                 >
-                    {page}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                    </svg>
                 </button>
-            ))}
 
-            {/* ปุ่มถัดไป */}
-            <button
-                // onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-                onClick={() => !disabled && onPageChange(Math.min(totalPages, currentPage + 1))}
-                // disabled={currentPage === totalPages}
-                disabled={disabled || currentPage === totalPages}
-                // className={`px-3 py-1 rounded ${
-                className={`px-3 py-1 rounded ${currentPage === totalPages
-                        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    }`}
-            >
-                &gt;
-            </button>
+                {/* รายการเลขหน้า */}
+                {getPageNumbers().map(page => (
+                    <button
+                        key={page}
+                        onClick={() => !disabled && onPageChange(page)}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === page
+                                ? 'bg-blue-500 text-white shadow-sm'
+                                : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                            } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    >
+                        {page}
+                    </button>
+                ))}
 
-            {/* ข้อมูลหน้า */}
-            <div className="ml-4 text-sm text-gray-600">
-                หน้า {currentPage} จาก {totalPages}
+                {/* ปุ่มถัดไป */}
+                <button
+                    onClick={() => !disabled && onPageChange(Math.min(totalPages, currentPage + 1))}
+                    disabled={disabled || currentPage === totalPages}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${currentPage === totalPages || disabled
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
+                        }`}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                    </svg>
+                </button>
             </div>
         </div>
     );
