@@ -5,18 +5,29 @@ import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 import toast, { Toaster } from 'react-hot-toast';
 
+// Type definitions
+interface RowData {
+    [key: string]: string;
+}
+
+interface ColumnConfig {
+    key: string;
+    label: string;
+    headerName?: string;
+}
+
 interface DynamicTableProps {
     tabName: string; // The sheet name (e.g. 'Customers')
     title: string;   // Display title
-    columns?: { key: string; label: string; minWidth?: string }[]; // Column definition (optional - will be auto-generated from headers)
+    columns?: { headerName: string; label: string; minWidth?: string }[]; // Column definition - specify which columns to display by header name (optional - will auto-generate from headers if not provided)
     onAdd?: () => void; // Optional override handling
 }
 
 export default function DynamicTable({ tabName, title, columns: propColumns }: DynamicTableProps) {
     // State management
-    const [data, setData] = useState<any[]>([]);
+    const [data, setData] = useState<RowData[]>([]);
     const [headers, setHeaders] = useState<string[]>([]);
-    const [columns, setColumns] = useState<{ key: string; label: string }[]>([]);
+    const [columns, setColumns] = useState<ColumnConfig[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -26,8 +37,8 @@ export default function DynamicTable({ tabName, title, columns: propColumns }: D
     const itemsPerPage = 8;
 
     // Convert array of values to object using headers
-    const convertRowToObject = (row: string[], headers: string[]): Record<string, any> => {
-        const obj: Record<string, any> = {};
+    const convertRowToObject = (row: string[], headers: string[]): RowData => {
+        const obj: RowData = {};
         headers.forEach((header, index) => {
             const key = header.toLowerCase().replace(/\s+/g, '_'); // Convert header to key
             obj[key] = row[index] || '';
@@ -51,13 +62,19 @@ export default function DynamicTable({ tabName, title, columns: propColumns }: D
 
             // Generate columns from headers or use provided columns
             if (propColumns && propColumns.length > 0) {
-                // Skip the first header (usually ID) and use provided columns
-                setColumns(propColumns);
+                // Use provided columns - map by header name
+                const mappedColumns = propColumns.map((col) => ({
+                    key: col.headerName.toLowerCase().replace(/\s+/g, '_'),
+                    label: col.label,
+                    headerName: col.headerName
+                }));
+                setColumns(mappedColumns);
             } else {
                 // Auto-generate columns from headers (skip first column which is usually ID)
                 const generatedColumns = apiHeaders.slice(1).map((header: string) => ({
                     key: header.toLowerCase().replace(/\s+/g, '_'),
                     label: header,
+                    headerName: header
                 }));
                 setColumns(generatedColumns);
             }
