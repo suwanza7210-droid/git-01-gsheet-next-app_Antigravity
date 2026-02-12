@@ -40,6 +40,15 @@ export const appendDataToSheet = async (spreadsheetId: string, sheetName: string
     return response.data;
 };
 
+//getSheetHeaders ใช้ดึงแถวแรก (headers) จาก Google Sheets
+export const getSheetHeaders = async (spreadsheetId: string, sheetName: string) => {
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range: `${sheetName}!A1:Z1`, // ดึงแค่แถวแรก
+    });
+    return response.data.values?.[0] || [];
+};
+
 //getSheetData ใช้ดึงข้อมูลจาก Google Sheets
 export const getSheetData = async (spreadsheetId: string, sheetName: string) => {
     const response = await sheets.spreadsheets.values.get({

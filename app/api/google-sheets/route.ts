@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { appendDataToSheet, getSheetData, updateSheetRow, deleteSheetRow } from '@/lib/google-sheets';
+import { appendDataToSheet, getSheetData, getSheetHeaders, updateSheetRow, deleteSheetRow } from '@/lib/google-sheets';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 
@@ -12,7 +12,7 @@ async function getSessionAndSheetId() {
     return { sheetId: session.user.use_sheet, error: null };
 }
 
-// GET - ดึงข้อมูลจาก Sheet ที่ระบุ (default: Customers)
+// GET - ดึงข้อมูลจาก Sheet ที่ระบุ (default: Customers) พร้อมกับ headers
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
@@ -21,8 +21,15 @@ export async function GET(request: NextRequest) {
         const { sheetId, error: sessionError } = await getSessionAndSheetId();
         if (sessionError) return sessionError;
 
+        // ดึงทั้ง headers และ data
+        const headers = await getSheetHeaders(sheetId!, tab);
         const data = await getSheetData(sheetId!, tab);
-        return NextResponse.json(data);
+
+        // ส่ง response เป็น object ที่มี headers และ data
+        return NextResponse.json({
+            headers,
+            data
+        });
     } catch (error) {
         console.error('Error fetching data:', error);
         return NextResponse.json(

@@ -29,10 +29,10 @@ export default function DashboardPage() {
                 const treatData = await treatRes.json();
 
                 setStats({
-                    customers: Array.isArray(custData) ? custData.length : 0,
-                    appointments: Array.isArray(appData) ? appData.length : 0,
-                    dentists: Array.isArray(dentData) ? dentData.length : 0,
-                    treatments: Array.isArray(treatData) ? treatData.length : 0,
+                    customers: (custData.data && Array.isArray(custData.data)) ? custData.data.length : 0,
+                    appointments: (appData.data && Array.isArray(appData.data)) ? appData.data.length : 0,
+                    dentists: (dentData.data && Array.isArray(dentData.data)) ? dentData.data.length : 0,
+                    treatments: (treatData.data && Array.isArray(treatData.data)) ? treatData.data.length : 0,
                 });
             } catch (error) {
                 console.error("Failed to load stats", error);
